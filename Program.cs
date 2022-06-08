@@ -1,7 +1,7 @@
-﻿using OpenQA.Selenium;
+﻿using OfficeOpenXml;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-// using OpenQA.Selenium.Support.UI;
 
 namespace JSP
 {
@@ -9,29 +9,78 @@ namespace JSP
     {
         public static void Main()
         {
+            const string path = "BUS Mapping FI-01-00.xlsx";
+
+            using var file = new FileStream(path, FileMode.Open, FileAccess.Read);
+
+            using var excelPackage = new ExcelPackage(file);
+
+            var worksheet = excelPackage.Workbook.Worksheets[0];
+
             var options = new ChromeOptions();
             // options.AddArgument("--headless");
             // options.LeaveBrowserRunning = true;
 
             // Create profile manually, login in the first time, after that it'll log in automatically.
-            options.AddArgument("--user-data-dir=/home/carlos/.config/google-chrome/");
+            // options.AddArgument("--user-data-dir=/home/carlos/.config/google-chrome/");
             options.AddArgument("--profile-directory=Profile 1");
 
             using IWebDriver driver = new ChromeDriver(options);
-            driver.Navigate().GoToUrl("https://jira.jnj.com/browse/AHFY-34224");
 
-            driver.FindElement(By.Id("add-links-link")).Click();
+            string? previousBps = null;
 
-            Thread.Sleep(3000);
+            for (int row = 2; row <= 1_000_000; row++)
+            {
+                var currentBus = worksheet.Cells["A" + row].Text;
 
-            var selectElement = driver.FindElement(By.Id("link-type"));
+                var currentBps = worksheet.Cells["C" + row].Text;
 
-            var selectObject = new SelectElement(selectElement);
-            selectObject.SelectByValue("is parent task of");
+                if (string.IsNullOrWhiteSpace(currentBus) && string.IsNullOrWhiteSpace(currentBps))
+                {
+                    // Save
+                    var saveElement = driver.FindElement(By.Name("Link"));
+                    saveElement.Click();
 
-            var element = driver.FindElement(By.Id("jira-issue-keys-textarea"));
-            element.SendKeys("AHFY-30319");
-            element.SendKeys(Keys.Tab);
+                    break;
+                }
+
+                if (currentBps != previousBps)
+                {
+                    if (previousBps != null)
+                    {
+                        // Save
+                        var saveElement = driver.FindElement(By.Name("Link"));
+                        saveElement.Click();
+                    }
+
+                    // Go to the next BPS
+                    driver.Navigate().GoToUrl($"https://jira.jnj.com/browse/{currentBps}");
+
+                    IWebElement? addLinksElement = null;
+
+                    while ((addLinksElement = driver.FindElements(By.Id("add-links-link")).SingleOrDefault()) == null)
+                    {
+                        // Wait for the user to login (if needed) and be redirected to the correct link,
+                        // in other words make sure the element id is available.
+                        Thread.Sleep(2000);
+                    }
+
+                    addLinksElement.Click();
+
+                    Thread.Sleep(3000);
+
+                    var selectElement = driver.FindElement(By.Id("link-type"));
+
+                    var selectObject = new SelectElement(selectElement);
+                    selectObject.SelectByValue("is parent task of");
+                }
+
+                var element = driver.FindElement(By.Id("jira-issue-keys-textarea"));
+                element.SendKeys(currentBus);
+                element.SendKeys(Keys.Tab);
+
+                previousBps = currentBps;
+            }
 
             Thread.Sleep(10000);
         }
