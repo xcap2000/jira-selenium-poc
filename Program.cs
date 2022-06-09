@@ -9,7 +9,10 @@ namespace JSP
     {
         public static void Main()
         {
-            const string path = "BUS Mapping FI-01-00.xlsx";
+            // const string path = "BUS Mapping FI-01-00.xlsx";
+            // const string path = "/home/carlos/Downloads/Import Jira/BUS Mapping INB-07-00.xlsx";
+            // const string path = "/home/carlos/Downloads/Import Jira/BUS Mapping OUTB-06-00.xlsx";
+            const string path = "/home/carlos/Downloads/Import Jira/BUS Mapping OUTB-06-03.xlsx";
 
             using var file = new FileStream(path, FileMode.Open, FileAccess.Read);
 
@@ -22,7 +25,7 @@ namespace JSP
             // options.LeaveBrowserRunning = true;
 
             // Create profile manually, login in the first time, after that it'll log in automatically.
-            // options.AddArgument("--user-data-dir=/home/carlos/.config/google-chrome/");
+            options.AddArgument("--user-data-dir=/home/carlos/.config/google-chrome/");
             options.AddArgument("--profile-directory=Profile 1");
 
             using IWebDriver driver = new ChromeDriver(options);
