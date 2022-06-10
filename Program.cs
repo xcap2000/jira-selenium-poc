@@ -12,7 +12,9 @@ namespace JSP
             // const string path = "BUS Mapping FI-01-00.xlsx";
             // const string path = "/home/carlos/Downloads/Import Jira/BUS Mapping INB-07-00.xlsx";
             // const string path = "/home/carlos/Downloads/Import Jira/BUS Mapping OUTB-06-00.xlsx";
-            const string path = "/home/carlos/Downloads/Import Jira/BUS Mapping OUTB-06-03.xlsx";
+            // const string path = "/home/carlos/Downloads/Import Jira/BUS Mapping OUTB-06-03.xlsx";
+            // const string path = "/home/carlos/Downloads/RE__BPS_to_BUS_Mass_Upload/BUS Mapping COMM-04-00.xlsx";
+            const string path = "/home/carlos/Downloads/RE__BPS_to_BUS_Mass_Upload/BUS Mapping E2E-28-00.xlsx";
 
             using var file = new FileStream(path, FileMode.Open, FileAccess.Read);
 
@@ -85,7 +87,7 @@ namespace JSP
                 previousBps = currentBps;
             }
 
-            Thread.Sleep(10000);
+            Thread.Sleep(30000);
         }
     }
 }
