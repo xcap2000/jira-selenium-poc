@@ -7,3 +7,9 @@ $ dotnet add package Selenium.PhantomJS.WebDriver --version 2.1.1
 $ dotnet add package Selenium.Support --version 4.2.0
 $ dotnet add package EPPlus --version 4.5.3
 ```
+
+## To Run
+
+```bash
+$ dotnet run
+```

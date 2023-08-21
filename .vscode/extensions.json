@@ -1,0 +1,13 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csharp",
+        "eamodio.gitlens",
+        "ow.vscode-subword-navigation",
+        "Gruntfuggly.todo-tree",
+        "amodio.toggle-excluded-files",
+        "pflannery.vscode-versionlens",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "redhat.vscode-xml",
+        "oderwat.indent-rainbow"
+    ]
+}

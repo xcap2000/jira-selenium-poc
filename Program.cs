@@ -10,7 +10,8 @@ namespace JSP
         public static void Main()
         {
             // const string path = "BUS Mapping FI-01-00.xlsx";
-            const string path = "TUS Linkage File - 5.1.23.xlsx";
+            // const string path = "TUS Linkage File - 5.1.23.xlsx";
+            const string path = "Copy of TUS Linkage File - 8.21.xlsx";
             // const string path = "/home/carlos/Downloads/Import Jira/BUS Mapping INB-07-00.xlsx";
             // const string path = "/home/carlos/Downloads/Import Jira/BUS Mapping OUTB-06-00.xlsx";
             // const string path = "/home/carlos/Downloads/Import Jira/BUS Mapping OUTB-06-03.xlsx";

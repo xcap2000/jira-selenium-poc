@@ -13,12 +13,13 @@
     <PackageReference Include="Selenium.PhantomJS.WebDriver" Version="2.1.1" />
     <PackageReference Include="Selenium.Support" Version="4.9.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.9.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="112.0.5615.4900" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="116.0.5845.9600" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <None Update="BUS Mapping FI-01-00.xlsx" CopyToOutputDirectory="PreserveNewest" />
     <None Update="TUS Linkage File - 5.1.23.xlsx" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Copy of TUS Linkage File - 8.21.xlsx" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
