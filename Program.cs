@@ -1,4 +1,6 @@
-﻿using OfficeOpenXml;
+﻿using System.Diagnostics;
+using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -38,7 +40,7 @@ namespace JSP
 
             string? previousBps = null;
 
-            for (int row = 2; row <= 1_000_000; row++)
+            for (int row = 598; row <= 1_000_000; row++)
             {
                 var currentBus = worksheet.Cells["B" + row].Text;
 
@@ -61,6 +63,8 @@ namespace JSP
                         var saveElement = driver.FindElementSafely(By.Name("Link"));
                         saveElement.Click();
                     }
+
+                    Thread.Sleep(1000);
 
                     // Go to the next BPS
                     driver.Navigate().GoToUrl($"https://jira.jnj.com/browse/{currentBps}");
@@ -106,10 +110,28 @@ namespace JSP
                     selectObject.SelectByValue("is child task of");
                 }
 
-                // var element = driver.FindElement(By.Id("jira-issue-keys-textarea"));
-                var element = driver.FindElementSafely(By.Id("jira-issue-keys-textarea"));
-                element.SendKeys(currentBus);
-                element.SendKeys(Keys.Tab);
+                // TODO - If you find the following div then you have to redo the process below and increase the sleep time
+                // for each iteration
+                // TODO - div class error text: You must specify a Jira issue to link to.
+
+                IWebElement? errorMessageDiv = null;
+
+                var count = 1;
+
+                do
+                {
+                    var element = driver.FindElementSafely(By.Id("jira-issue-keys-textarea"));
+                    element.SendKeys(currentBus);
+                    if (count > 1)
+                    {
+                        Debugger.Break();
+                    }
+                    Thread.Sleep(count++ * 1000);
+                    element.SendKeys(Keys.Tab);
+
+                    errorMessageDiv = driver.FindElements(By.ClassName("error")).FirstOrDefault(e => e.Text == "You must specify a Jira issue to link to.");
+                }
+                while (errorMessageDiv != null);
 
                 previousBps = currentBps;
             }
