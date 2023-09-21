@@ -40,7 +40,7 @@ namespace JSP
 
             string? previousBps = null;
 
-            for (int row = 598; row <= 1_000_000; row++)
+            for (int row = 2; row <= 1_000_000; row++)
             {
                 var currentBus = worksheet.Cells["B" + row].Text;
 

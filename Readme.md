@@ -13,3 +13,9 @@ $ dotnet add package EPPlus --version 4.5.3
 ```bash
 $ dotnet run
 ```
+
+# References
+
+```
+https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.414-windows-x64-installer
+```
